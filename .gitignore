@@ -1,0 +1,51 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+!src/segmenter*.so
+*.egg-info/
+*.dist-info/
+pip-wheel-metadata/
+.pytest_cache/
+.tox/
+.coverage*
+htmlcov/
+
+# --- Environments ---
+.env
+.venv/
+venv/
+env/
+
+# --- IDE / OS ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# --- Build / dist ---
+build/
+dist/
+
+# --- Logs & run outputs ---
+logs/
+tmc2_encoding.log
+bitstreams/
+encoded_tiles_output/
+v3c_stream_output/
+
+# --- TMC2 repo (cloned at runtime) ---
+src/encoder/TMC2/
+
+# --- Misc ---
+*.swp
+*.swo
+*.mpd
+
+# --- Segmenter source protection ---
+src/segmenter.py
+src/segmenter.pyx
+src/segmenter.c
+build_segmenter.py

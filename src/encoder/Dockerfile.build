@@ -1,0 +1,40 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# ----------------------------------------------------
+# 1. System Dependencies
+# ----------------------------------------------------
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    cmake \
+    make \
+    ninja-build \
+    build-essential \
+    clang \
+    libclang-dev \
+    pkg-config \
+    ffmpeg \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Build context = src/encoder/
+WORKDIR /src/encoder
+
+# Clone TMC2 if not already present in the build context
+ARG TMC2_REPO=https://github.com/Thehappydeveloper/mpeg-pcc-tmc2.git
+RUN if [ ! -d TMC2 ]; then git clone ${TMC2_REPO} TMC2; fi
+
+WORKDIR /src/encoder/TMC2
+
+# Make scripts executable and build
+RUN chmod +x build.sh && ./build.sh release
+
+# Add binaries to PATH
+ENV PATH="/src/encoder/TMC2/build/bin:${PATH}"
+
+VOLUME ["/data"]
+WORKDIR /data
+
+CMD ["/bin/bash"]

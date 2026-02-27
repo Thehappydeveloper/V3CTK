@@ -1,0 +1,8 @@
+flask
+numpy
+pandas
+tqdm
+lxml
+isodate
+Cython
+setuptools

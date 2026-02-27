@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V3CTK Runner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+  <body data-theme="nocturne">
+  <div class="bg-anim"></div>
+  <div class="card">
+    <h1>V3CTK</h1>
+    <h2 id="subtitle">Select uncompressed content</h2>
+    <div class="top-bar">
+      <div class="theme-switch">
+        <label for="theme">Theme</label>
+        <select id="theme" class="input">
+          <option value="nocturne">Nocturne</option>
+          <option value="slate">Slate</option>
+          <option value="dawn">Dawn</option>
+          <option value="forest">Forest</option>
+          <option value="ember">Ember</option>
+          <option value="arctic">Arctic</option>
+          <option value="pastel">Pastel</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="step-folder" class="panel">
+      <div class="row">
+        <label for="folder">Input folder (PLYs)</label>
+        <input class="input" id="folder" placeholder="/path/to/folder" required>
+      </div>
+      <button class="button" id="next">Next: detect & configure</button>
+      <div class="status" id="file-warning" style="display:none;">
+        <span class="pill">Heads up</span>
+        Open this page via http(s) (not file://) to enable auto-detection.
+      </div>
+    </div>
+
+    <div id="step-form" class="hidden panel fade-in">
+      <div class="status" id="detect-status" style="display:none;"></div>
+      <div id="meta" class="output" style="display:none;"></div>
+      <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;">
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <span class="toggle-link" id="edit-detected" style="display:none;">Show detected fields</span>
+          <button class="load-btn hidden" id="back-to-logs" style="padding:8px 10px;">Back to logs</button>
+          <div class="hint" id="fill-hint">Fill required boxes highlighted in amber to continue.</div>
+        </div>
+        <button class="load-btn hidden" id="load-cache">Load saved</button>
+      </div>
+      <div class="section">
+        <h3>Project & Paths</h3>
+        <div class="grid">
+          <div class="row">
+            <label for="project">Project name</label>
+            <input class="input" id="project" placeholder="default_project" style="flex:1;">
+          </div>
+          <div class="row">
+            <label for="tilesOutput">Tiles output</label>
+            <input class="input" id="tilesOutput" placeholder="output/tiles">
+          </div>
+          <div class="row">
+            <label for="encoderOutput">Encoder output</label>
+            <input class="input" id="encoderOutput" placeholder="output/encoded">
+          </div>
+          <div class="row">
+            <label for="logsDir">Logs dir</label>
+            <input class="input" id="logsDir" placeholder="output/logs">
+          </div>
+          <div class="row">
+            <label for="v3cOutput">V3C output</label>
+            <input class="input" id="v3cOutput" placeholder="output/v3c">
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Processing & Encoding</h3>
+        <div class="grid">
+          <div class="row">
+            <label for="segment">Segment size</label>
+            <input class="input" id="segment" type="number" min="1" placeholder="16">
+          </div>
+          <div class="row">
+            <label>Tiling scheme (x × y × z)</label>
+            <div class="tiling">
+              <input class="input" id="nx" type="number" min="1" placeholder="2">
+              <input class="input" id="ny" type="number" min="1" placeholder="3">
+              <input class="input" id="nz" type="number" min="1" placeholder="1">
+            </div>
+          </div>
+          <div class="row">
+            <label for="frameRate">Frame rate (fps)</label>
+            <input class="input" id="frameRate" type="number" min="0.1" step="0.01" placeholder="30" value="30">
+          </div>
+          <div class="row">
+            <label for="encodingParallelism">Thread cap</label>
+            <input class="input" id="encodingParallelism" type="number" min="1" placeholder="1" value="1">
+          </div>
+          <div class="row">
+            <label for="encodingThreadsPerInstance">Threads per encode</label>
+            <input class="input" id="encodingThreadsPerInstance" type="number" min="1" placeholder="1">
+          </div>
+          <div class="row">
+            <label for="qpPairs">QP triplets (occ:geo:attr)</label>
+            <input class="input" id="qpPairs" placeholder="24:32:43 28:36:45">
+          </div>
+          <div class="row" style="display:flex; align-items:center; gap:8px;">
+            <label for="segSplitComponents" style="margin:0; flex:1;">Split components (atlas/occp/geom/attr)</label>
+            <input id="segSplitComponents" type="checkbox" checked>
+            <span class="pill" id="seg-split-pill">On</span>
+          </div>
+        </div>
+        <div class="row">
+          <label>Stages</label>
+          <div class="stage-row" id="stage-row">
+            <label class="toggle-chip active">
+              <input type="checkbox" id="stageTile" checked>
+              <span class="chip-content"><span class="dot"></span>Tile</span>
+            </label>
+            <label class="toggle-chip active">
+              <input type="checkbox" id="stageEncode" checked>
+              <span class="chip-content"><span class="dot"></span>Encode</span>
+            </label>
+            <label class="toggle-chip active">
+              <input type="checkbox" id="stageSegment" checked>
+              <span class="chip-content"><span class="dot"></span>Segment</span>
+            </label>
+            <label class="toggle-chip active">
+              <input type="checkbox" id="stageMPD" checked>
+              <span class="chip-content"><span class="dot"></span>MPD</span>
+            </label>
+          </div>
+          <div class="hint hidden-inline" id="stage-running-hint">Stages locked while run is active.</div>
+        </div>
+      </div>
+      <div class="section autodetect collapsible">
+        <h3>Detected (auto)</h3>
+        <div class="grid">
+          <div class="row">
+            <label for="vox">Vox precision</label>
+            <input class="input" id="vox" type="number" min="1" placeholder="auto-detected">
+          </div>
+          <div class="row">
+            <label for="frameCount">Frame count</label>
+            <input class="input" id="frameCount" type="number" min="1" placeholder="auto-detected">
+          </div>
+          <div class="row">
+            <label for="startFrame">Start frame index</label>
+            <input class="input" id="startFrame" type="number" min="0" placeholder="auto-detected">
+          </div>
+        </div>
+      </div>
+      <button class="button" id="build">Generate CLI Command</button>
+      <button class="button" id="run">Run Now</button>
+      <div class="output hidden" id="command"></div>
+      <div class="output hidden" id="log-output" style="margin-top:12px; max-height:70vh; min-height:40vh; overflow-y:auto;"></div>
+    </div>
+
+    <div id="step-logs" class="hidden panel" style="margin-top:16px;">
+      <div class="status" id="run-status" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span class="badge stopped" id="run-status-badge"><span class="dot"></span><span id="run-status-text">Awaiting run</span></span>
+      </div>
+      <div class="row" style="display:flex; gap:10px; margin-top:10px;">
+        <button class="button" id="back-to-form" style="flex:1;">Back to parameters</button>
+        <button class="button btn-danger" id="stop-run" style="flex:1;">Stop</button>
+      </div>
+      <div class="output" id="live-log" style="margin-top:14px; max-height:75vh; min-height:50vh; overflow-y:auto; white-space: pre-wrap;"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

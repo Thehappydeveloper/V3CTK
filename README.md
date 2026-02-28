@@ -206,10 +206,11 @@ Contributor and governance rules are in [CONTRIBUTING.md](CONTRIBUTING.md), [CLA
 ## ACM Reference Format
 
 ```text
-Ouellette, J., Sidhu, J. S., and Bentaleb, A. 2026.
+Jérémy Ouellette, Jashanjot Singh Sidhu, and Abdelhak Bentaleb. 2026.
 V3CTK: An End-to-End V3C Content Preparation Toolkit for Tiled Dynamic Point Cloud Streaming.
-In Proceedings of the ACM Multimedia Systems Conference 2026 (MMSys '26),
-April 4-8, 2026, Hong Kong, Hong Kong. ACM, New York, NY, USA, 6 pages.
+In Proceedings of the 17th ACM Multimedia Systems Conference (MMSys ’26),
+Hong Kong, Hong Kong. Association for Computing Machinery,
+New York, NY, USA, 6 pages.
 https://doi.org/10.1145/3793853.3799816
 ```
 
@@ -217,14 +218,16 @@ https://doi.org/10.1145/3793853.3799816
 
 ```bibtex
 @inproceedings{ouellette2026v3ctk,
+  year = {2026},
   author    = {Ouellette, J{\'e}r{\'e}my and Sidhu, Jashanjot Singh and Bentaleb, Abdelhak},
   title     = {V3CTK: An End-to-End V3C Content Preparation Toolkit for Tiled Dynamic Point Cloud Streaming},
-  booktitle = {Proceedings of the ACM Multimedia Systems Conference 2026 (MMSys '26)},
-  year      = {2026},
-  month     = apr,
-  address   = {Hong Kong, Hong Kong},
-  publisher = {ACM},
-  pages     = {1--6},
-  doi       = {10.1145/3793853.3799816}
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/3793853.3799816},
+  doi       = {10.1145/3793853.3799816},
+  booktitle = {Proceedings of the 17th ACM Multimedia Systems Conference},
+  numpages = {6},
+  location = {Hong Kong, Hong Kong},
+  series = {MMSys '26}
 }
 ```
